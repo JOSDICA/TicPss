@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TIC PSS SAS</title>
+    <style>
+        /* ========================================================
+           1. RESET DE ESTILOS Y PROPIEDADES GENERALES
+           ======================================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: #0a2540; /* FONDO PREDETERMINADO (OSCURO) */
+            color: white;
+            line-height: 1.6;
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
+
+        /* ========================================================
+           2. ESTILOS EXCLUSIVOS PARA MODO CLARO
+           ======================================================== */
+        body.light-mode {
+            background-color: #f4f7f6;
+            color: #1e293b;
+        }
+
+        body.light-mode nav {
+            background-color: #0f172a;
+        }
+
+        body.light-mode .section-block {
+            background: #ffffff;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        body.light-mode .section-block h2 {
+            color: #0052cc;
+            border-bottom: 3px solid #0052cc;
+        }
+
+        body.light-mode .mv-card {
+            background: #f8fafc;
+            border-left: 4px solid #0052cc;
+        }
+
+        body.light-mode .mv-card h3 {
+            color: #0052cc;
+        }
+
+        body.light-mode .flip-card-front {
+            background: #f8fafc;
+            color: #1e293b;
+            border: 1px solid #e2e8f0;
+        }
+
+        body.light-mode .flip-card-front .icon {
+            background: #e2e8f0;
+        }
+
+        body.light-mode .flip-card-front h3 {
+            color: #0052cc;
+        }
+
+        body.light-mode .flip-card-front p {
+            color: #475569;
+        }
+
+        body.light-mode .flip-card-front .hint-btn {
+            background: #e6f7f5;
+            color: #008f7a;
+        }
+
+        body.light-mode .contact-section {
+            background: #ffffff;
+            color: #1e293b;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        body.light-mode .contact-section h2 {
+            color: #0052cc;
+        }
+
+        body.light-mode .contact-item {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+        }
+
+        body.light-mode .contact-item strong {
+            color: #0052cc;
+        }
+
+        /* ========================================================
+           3. MENÚ DE NAVEGACIÓN Y LOGO EN BARRA
+           ======================================================== */
+        nav {
+            background-color: #000000;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+            transition: background-color 0.4s ease;
+        }
+
+        .nav-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+        }
+
+        /* Logo de la barra de navegación */
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .nav-logo-img {
+            height: 40px; /* Altura ajustada para el menú */
+            width: auto;
+            object-fit: contain;
+            /* Filtro ligero para resaltar en fondo oscuro */
+            filter: drop-shadow(0px 0px 4px rgba(49, 231, 201, 0.4));
+        }
+
+        .logo-text {
+            color: white;
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+
+        .nav-right-group {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: #f6f6f6;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #31e7c9;
+        }
+
+        /* Botones de Control (Idioma y Tema) */
+        .controls-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .toggle-btn {
+            background-color: #111827;
+            border: 1px solid #1f2937;
+            color: #ffffff;
+            font-weight: bold;
+            font-size: 0.9rem;
+            padding: 8px 14px;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .toggle-btn:hover {
+            border-color: #31e7c9;
+            transform: translateY(-2px);
+        }
+
+        /* ========================================================
+           4. ENCABEZADO (HEADER) Y LOGO PRINCIPAL
+           ======================================================== */
+        header {
+            background: linear-gradient(135deg, #0a2540, #0052cc);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .header-logo-img {
+            height: 110px; /* Tamaño destacado en el encabezado */
+            width: auto;
+            margin-bottom: 15px;
+            object-fit: contain;
+            filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.3));
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 5px;
+        }
+
+        header h2 {
+            font-size: 1.2rem;
+            font-weight: 400;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            color: #00d4b1;
+        }
+
+        header p1 {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        /* ========================================================
+           5. SECCIONES GENERALES
+           ======================================================== */
+        .section-block {
+            background: rgba(35, 78, 127, 0.996);
+            padding: 35px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(131, 8, 8, 0.05);
+            margin-bottom: 40px;
+            scroll-margin-top: 80px;
+            transition: background-color 0.4s ease;
+        }
+
+        .section-block h2 {
+            color: #00d4b1;
+            margin-bottom: 15px;
+            border-bottom: 3px solid #0a2540;
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+
+        /* Tarjetas de Misión y Visión */
+        .mv-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .mv-card {
+            background: rgba(35, 78, 127, 0.996);
+            padding: 20px;
+            border-left: 4px solid #0a2540;
+            border-radius: 5px;
+            transition: background-color 0.4s ease;
+        }
+
+        .mv-card h3 {
+            color: #00d4b1;
+            margin-bottom: 10px;
+        }
+
+        /* ========================================================
+           6. DISPOSICIÓN HORIZONTAL Y EFECTO FLIP CARD 3D
+           ======================================================== */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            justify-content: center;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .flip-card {
+            background-color: transparent;
+            width: 100%;
+            height: 380px;
+            perspective: 1000px;
+        }
+
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .flip-card:hover .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 16px;
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #0a2540;
+        }
+
+        .flip-card-front {
+            background: #0a2540;
+            color: #0a2540;
+            transition: background-color 0.4s ease;
+        }
+
+        .flip-card-front .icon {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            background: #0a2540;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .flip-card-front h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #00d4b1;
+            margin-bottom: 10px;
+        }
+
+        .flip-card-front p {
+            font-size: 0.95rem;
+            color: white;
+            line-height: 1.5;
+        }
+
+        .flip-card-front .hint-btn {
+            margin-top: 20px;
+            font-size: 0.85rem;
+            color: #00d4b1;
+            background: #0a2540;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        .flip-card-back {
+            background: linear-gradient(135deg,#31e7c9, #0a2540, #0a2540, #31e7c9);
+            color: white;
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-back h3 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+            padding-bottom: 5px;
+        }
+
+        .flip-card-back ul {
+            list-style: none;
+            text-align: left;
+            margin-bottom: 25px;
+            width: 100%;
+            padding: 0 10px;
+        }
+
+        .flip-card-back ul li {
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .flip-card-back ul li::before {
+            content: "✓";
+            font-weight: bold;
+            color: #ffffff;
+        }
+
+        .flip-card-back .action-btn {
+            background: #ffffff;
+            color: #00d4b1;
+            padding: 10px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            transition: background 0.2s, transform 0.2s;
+        }
+
+        .flip-card-back .action-btn:hover {
+            background: #f0fdf4;
+            transform: scale(1.05);
+        }
+
+        .card-cctv .flip-card-back {
+            background: linear-gradient(135deg,#31e7c9, #0a2540, #0a2540, #31e7c9);
+        }
+
+        .card-networks .flip-card-back {
+            background: linear-gradient(135deg,#31e7c9, #0a2540, #0a2540, #31e7c9);
+        }
+
+        /* ========================================================
+           7. SECCIÓN DE CONTACTOS
+           ======================================================== */
+        .contact-section {
+            background: #0a2540;
+            color: white;
+            padding: 40px 25px;
+            border-radius: 10px;
+            text-align: center;
+            scroll-margin-top: 80px;
+            transition: background-color 0.4s ease;
+        }
+
+        .contact-section h2 {
+            margin-bottom: 15px;
+            color: #00d4b1;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 25px;
+            margin-top: 25px;
+        }
+
+        .contact-item {
+            background: rgba(35, 78, 127, 0.996);
+            padding: 20px;
+            border-radius: 8px;
+            min-width: 280px;
+            flex: 1;
+            max-width: 350px;
+            transition: background-color 0.4s ease;
+        }
+
+        .contact-item strong {
+            display: block;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            color: #00d4b1;
+        }
+
+        .btn-wsp {
+            display: inline-block;
+            background: #25d366;
+            color: white;
+            padding: 12px 25px;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+            margin-top: 20px;
+            transition: background 0.3s;
+        }
+
+        .btn-wsp:hover {
+            background: #1ebc57;
+        }
+
+        /* ========================================================
+           8. PIE DE PÁGINA (FOOTER) Y RESPONSIVIDAD
+           ======================================================== */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #061726;
+            color: #888;
+            font-size: 0.9rem;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .nav-right-group {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .nav-links {
+                gap: 12px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Menú de Navegación con Logo -->
+    <nav>
+        <div class="nav-container">
+            <a href="#" class="logo-container">
+                <!-- Reemplaza "Logo_Tic_Sin_fondo.png" por la ruta real de tu archivo de imagen -->
+                <img src="C:\Users\JOSDC\Desktop\Pagina web\Logo_Tic_Sin_fondo.png" alt="Logo TIC PSS" class="nav-logo-img">
+                <span class="logo-text">TIC PSS SAS</span>
+            </a>
+
+            <div class="nav-right-group">
+                <ul class="nav-links">
+                    <li><a href="#quienes-somos" data-key="nav-about">Quiénes Somos</a></li>
+                    <li><a href="#mision-vision" data-key="nav-vision">Visión</a></li>
+                    <li><a href="#servicios" data-key="nav-services">Servicios</a></li>
+                    <li><a href="#contactos" data-key="nav-contacts">Contactos</a></li>
+                </ul>
+
+                <!-- BOTONES EN / 🌙 -->
+                <div class="controls-container">
+                    <button id="lang-btn" class="toggle-btn" aria-label="Cambiar idioma">EN</button>
+                    <button id="theme-btn" class="toggle-btn" aria-label="Cambiar tema">🌙</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Encabezado Principal con Logo en Grande -->
+    <header>
+        <!-- Reemplaza "Logo_Tic_Sin_fondo.png" por la ruta real de tu archivo de imagen -->
+       <!-- <img src="C:\Users\JOSDC\Desktop\Pagina web\Logo_Tic_Sin_fondo.png" alt="Logo TIC PSS SAS" class="header-logo-img"> -->
+               <h1>TIC</h1>
+        <h2>PROFESSIONAL SYSTEMS SOLUTIONS</h2>
+        <p1 data-key="header-desc">Infraestructura, mantenimiento y protección integral para tu empresa</p1>
+    </header>
+
+    <div class="container">
+
+        <!-- Sección: Quiénes Somos -->
+        <section id="quienes-somos" class="section-block">
+            <h2 data-key="about-title">Quiénes Somos</h2>
+            <p data-key="about-text">Somos TICPSS (Professional Systems Solutions), contamos con una asesoría personalizada en soluciones tecnológicas, de servicios de IT y CCTV. Apoyamos a nuestros clientes dando alternativas especializadas de acuerdo con su necesidad indicando la mejor opción, brindando así confiabilidad y calidad en nuestros servicios.</p>
+        </section>
+
+        <!-- Sección: Visión -->
+        <section id="mision-vision" class="section-block">
+            <h2 data-key="vision-title">Visión</h2>
+            <div class="mv-grid">
+                <div class="mv-card">
+                    <h3 data-key="mission-title">Misión</h3>
+                    <p data-key="mission-text">Convertirnos en la empresa líder en soporte tecnológico a nivel nacional e internacional, ofreciendo soluciones innovadoras y de alta calidad a pequeñas empresas y grandes multinacionales en todo el mundo, garantizando siempre eficiencia, confianza y excelencia en cada servicio.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección: Nuestros Servicios -->
+        <section id="servicios" class="section-block">
+            <h2 data-key="services-title">Nuestros Servicios</h2>
+            
+            <div class="cards-grid">
+
+                <!-- TARJETA 1: Outsourcing IT -->
+                <div class="flip-card">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <div class="icon">💻</div>
+                            <h3 data-key="card1-title">Outsourcing IT</h3>
+                            <p data-key="card1-desc">Soporte informático integral y gestión operativa para empresas.</p>
+                            <span class="hint-btn" data-key="flip-hint">Girar tarjeta ➔</span>
+                        </div>
+                        <div class="flip-card-back">
+                            <h3 data-key="card1-back-title">¿Qué incluimos?</h3>
+                            <ul>
+                                <li data-key="card1-item1">Mantenimiento preventivo</li>
+                                <li data-key="card1-item2">Soporte técnico presencial y remoto</li>
+                                <li data-key="card1-item3">Gestión de servidores y respaldos</li>
+                                <li data-key="card1-item4">Soporte a usuarios finales</li>
+                            </ul>
+                            <a href="#contactos" class="action-btn" data-key="btn-quote">Cotizar Servicio</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TARJETA 2: Redes y Cableado -->
+                <div class="flip-card card-networks">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <div class="icon">🌐</div>
+                            <h3 data-key="card2-title">Redes & Cableado</h3>
+                            <p data-key="card2-desc">Infraestructura de datos estable y organizada para alta velocidad.</p>
+                            <span class="hint-btn" data-key="flip-hint">Girar tarjeta ➔</span>
+                        </div>
+                        <div class="flip-card-back">
+                            <h3 data-key="card2-back-title">Especificaciones</h3>
+                            <ul>
+                                <li data-key="card2-item1">Cableado estructurado Cat 6 / 6A</li>
+                                <li data-key="card2-item2">Instalación y peinado de Racks</li>
+                                <li data-key="card2-item3">Configuración de Routers y Switches</li>
+                                <li data-key="card2-item4">Certificación de puntos de red</li>
+                            </ul>
+                            <a href="#contactos" class="action-btn" data-key="btn-more">Más Información</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TARJETA 3: CCTV -->
+                <div class="flip-card card-cctv">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <div class="icon">📹</div>
+                            <h3 data-key="card3-title">Sistemas CCTV</h3>
+                            <p data-key="card3-desc">Instalación y monitoreo inteligente para la seguridad de tu negocio.</p>
+                            <span class="hint-btn" data-key="flip-hint">Girar tarjeta ➔</span>
+                        </div>
+                        <div class="flip-card-back">
+                            <h3 data-key="card3-back-title">Características</h3>
+                            <ul>
+                                <li data-key="card3-item1">Cámaras IP y Analógicas HD</li>
+                                <li data-key="card3-item2">Acceso en tiempo real desde el celular</li>
+                                <li data-key="card3-item3">Grabación continua en disco/nube</li>
+                                <li data-key="card3-item4">Mantenimiento y corrección de fallas</li>
+                            </ul>
+                            <a href="#contactos" class="action-btn" data-key="btn-visit">Solicitar Visita</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Sección: Contactos -->
+        <section id="contactos" class="contact-section">
+            <h2 data-key="contact-title">Contáctanos</h2>
+            <p data-key="contact-desc">Estamos listos para atender tus requerimientos tecnológicos y presupuestos.</p>
+
+            <div class="contact-info">
+                <div class="contact-item">
+                    <strong data-key="contact-phone">📱 Celular / WhatsApp</strong>
+                    <p>+57 312 567 3316</p>
+                    <p>+57 304 644 1787</p>
+                </div>
+
+                <div class="contact-item">
+                    <strong data-key="contact-email">✉️ Correo Electrónico</strong>
+                    <p>ticprofessionalsystemssolution@gmail.com</p>
+                </div>
+            </div>
+
+            <a href="https://wa.me/573046441787?text=Hola,%20requiero%20informaci%C3%B3n%20sobre%20sus%20servicios" target="_blank" class="btn-wsp" data-key="btn-wsp">Enviar mensaje a WhatsApp</a>
+        </section>
+
+    </div>
+
+    <!-- Pie de página -->
+    <footer>
+        <p data-key="footer-text">&copy; 2026 Soluciones Tecnológicas IT & CCTV - Todos los derechos reservados.</p>
+    </footer>
+
+    <!-- LÓGICA JAVASCRIPT -->
+    <script>
+        const translations = {
+            es: {
+                "nav-about": "Quiénes Somos",
+                "nav-vision": "Visión",
+                "nav-services": "Servicios",
+                "nav-contacts": "Contactos",
+                "header-desc": "Infraestructura, mantenimiento y protección integral para tu empresa",
+                "about-title": "Quiénes Somos",
+                "about-text": "Somos TICPSS (Professional Systems Solutions), contamos con una asesoría personalizada en soluciones tecnológicas, de servicios de IT y CCTV. Apoyamos a nuestros clientes dando alternativas especializadas de acuerdo con su necesidad indicando la mejor opción, brindando así confiabilidad y calidad en nuestros servicios.",
+                "vision-title": "Visión",
+                "mission-title": "Misión",
+                "mission-text": "Convertirnos en la empresa líder en soporte tecnológico a nivel nacional e internacional, ofreciendo soluciones innovadoras y de alta calidad a pequeñas empresas y grandes multinacionales en todo el mundo, garantizando siempre eficiencia, confianza y excelencia en cada servicio.",
+                "services-title": "Nuestros Servicios",
+                "flip-hint": "Girar tarjeta ➔",
+                "card1-title": "Outsourcing IT",
+                "card1-desc": "Soporte informático integral y gestión operativa para empresas.",
+                "card1-back-title": "¿Qué incluimos?",
+                "card1-item1": "Mantenimiento preventivo",
+                "card1-item2": "Soporte técnico presencial y remoto",
+                "card1-item3": "Gestión de servidores y respaldos",
+                "card1-item4": "Soporte a usuarios finales",
+                "btn-quote": "Cotizar Servicio",
+                "card2-title": "Redes & Cableado",
+                "card2-desc": "Infraestructura de datos estable y organizada para alta velocidad.",
+                "card2-back-title": "Especificaciones",
+                "card2-item1": "Cableado estructurado Cat 6 / 6A",
+                "card2-item2": "Instalación y peinado de Racks",
+                "card2-item3": "Configuración de Routers y Switches",
+                "card2-item4": "Certificación de puntos de red",
+                "btn-more": "Más Información",
+                "card3-title": "Sistemas CCTV",
+                "card3-desc": "Instalación y monitoreo inteligente para la seguridad de tu negocio.",
+                "card3-back-title": "Características",
+                "card3-item1": "Cámaras IP y Analógicas HD",
+                "card3-item2": "Acceso en tiempo real desde el celular",
+                "card3-item3": "Grabación continua en disco/nube",
+                "card3-item4": "Mantenimiento y corrección de fallas",
+                "btn-visit": "Solicitar Visita",
+                "contact-title": "Contáctanos",
+                "contact-desc": "Estamos listos para atender tus requerimientos tecnológicos y presupuestos.",
+                "contact-phone": "📱 Celular / WhatsApp",
+                "contact-email": "✉️ Correo Electrónico",
+                "btn-wsp": "Enviar mensaje a WhatsApp",
+                "footer-text": "© 2026 Soluciones Tecnológicas IT & CCTV - Todos los derechos reservados."
+            },
+            en: {
+                "nav-about": "About Us",
+                "nav-vision": "Vision",
+                "nav-services": "Services",
+                "nav-contacts": "Contacts",
+                "header-desc": "Comprehensive IT infrastructure, maintenance, and protection for your company",
+                "about-title": "About Us",
+                "about-text": "We are TICPSS (Professional Systems Solutions), providing personalized advisory in tech solutions, IT services, and CCTV. We support our clients by delivering tailored alternatives to suit their needs, offering reliability and quality in all services.",
+                "vision-title": "Vision",
+                "mission-title": "Mission",
+                "mission-text": "To become the leading tech support company nationally and internationally, providing innovative, high-quality solutions to small businesses and global enterprises, guaranteeing efficiency, trust, and excellence.",
+                "services-title": "Our Services",
+                "flip-hint": "Flip Card ➔",
+                "card1-title": "IT Outsourcing",
+                "card1-desc": "Comprehensive IT support and operational management for businesses.",
+                "card1-back-title": "What's Included?",
+                "card1-item1": "Preventive maintenance",
+                "card1-item2": "On-site and remote tech support",
+                "card1-item3": "Server management and backups",
+                "card1-item4": "End-user support",
+                "btn-quote": "Get a Quote",
+                "card2-title": "Networking & Cabling",
+                "card2-desc": "Stable and organized data infrastructure for high-speed connectivity.",
+                "card2-back-title": "Specifications",
+                "card2-item1": "Structured cabling Cat 6 / 6A",
+                "card2-item2": "Rack installation and organization",
+                "card2-item3": "Router and Switch configuration",
+                "card2-item4": "Network point certification",
+                "btn-more": "More Info",
+                "card3-title": "CCTV Systems",
+                "card3-desc": "Smart installation and monitoring for your business security.",
+                "card3-back-title": "Features",
+                "card3-item1": "IP and Analog HD Cameras",
+                "card3-item2": "Real-time mobile access",
+                "card3-item3": "Continuous disk/cloud recording",
+                "card3-item4": "Maintenance and troubleshooting",
+                "btn-visit": "Request Visit",
+                "contact-title": "Contact Us",
+                "contact-desc": "We are ready to handle your technical requests and quotes.",
+                "contact-phone": "📱 Mobile / WhatsApp",
+                "contact-email": "✉️ Email Address",
+                "btn-wsp": "Send WhatsApp Message",
+                "footer-text": "© 2026 IT & CCTV Tech Solutions - All rights reserved."
+            }
+        };
+
+        const themeBtn = document.getElementById('theme-btn');
+        themeBtn.addEventListener('click', () => {
+            document.body.classList.toggle('light-mode');
+            const isLight = document.body.classList.contains('light-mode');
+            themeBtn.textContent = isLight ? '☀️' : '🌙';
+        });
+
+        let currentLang = 'es';
+        const langBtn = document.getElementById('lang-btn');
+
+        langBtn.addEventListener('click', () => {
+            currentLang = currentLang === 'es' ? 'en' : 'es';
+            langBtn.textContent = currentLang === 'es' ? 'EN' : 'ES';
+
+            document.querySelectorAll('[data-key]').forEach(element => {
+                const key = element.getAttribute('data-key');
+                if (translations[currentLang][key]) {
+                    element.textContent = translations[currentLang][key];
+                }
+            });
+        });
+    </script>
+</body>
+</html>
